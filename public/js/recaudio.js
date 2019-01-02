@@ -22,8 +22,6 @@ function startRecording(){
         // reset the buffers for the new recording
         leftchannel.length = rightchannel.length = 0;
         recordingLength = 0;
-        outputElement.innerHTML = 'Recording now...';
-    // if S is pressed, we stop the recording and package the WAV file
    } // end startRecording()
 
 function stopRecording(callBack){
@@ -31,7 +29,6 @@ function stopRecording(callBack){
         // we stop recording
         recording = false;
         
-        outputElement.innerHTML = 'Building wav file...';
 console.log("Building wav file");
 
         // we flat the left and right channels down
@@ -88,25 +85,23 @@ for(var i=0;i<view.byteLength;i++){
 console.log(view);
         
         // let's save it locally
-        outputElement.innerHTML = 'Handing off the file now...';
         var url = (window.URL || window.webkitURL).createObjectURL(blob);
 		
 console.log(url);
-url = "http://localhost:3000/speech_to_text";
+url = window.URL.toString().substring(0, window.URL.toString().indexOf("function")) + "speech_to_text";
 	//	callBack(url);
 
 var oReq = new XMLHttpRequest();
 oReq.open("POST", url, true);
 oReq.onload = function (oEvent) {
-
-  // Uploaded.
-console.log("IN HERE - " + oReq.response);
-document.getElementById("textInput").value = oReq.response;
-event.keyCode = 13; 
-ConversationPanel.inputKeyDown(event, document.getElementById("textInput"));
+  // Response from server received
+   console.log("IN HERE - " + oReq.response);
+   document.getElementById("textInput").value = oReq.response;
+   event.keyCode = 13; 
+   ConversationPanel.inputKeyDown(event, document.getElementById("textInput")); /* hit enter like somebody would on console manually */
 };
 
-//blob = new Blob(['abc123blahblacblakdlfkjadslkfjlasfjl'], {type: 'text/plain'});
+//blob = new Blob(['abc123'], {type: 'text/plain'});
 console.log(blob);
 if (false)
 {
