@@ -1,0 +1,15 @@
+1) Create new JSON for Service Account created by Dialogflow
+2) Download to computer
+3) export GOOGLE_APPLICATION_CREDENTIALS=/Users/kevindunetz/Downloads/kadrichtext-d12d986ff555.json
+4) gcloud config set project [PROJECT_ID]
+5) gcloud auth login
+6) gcloud app deploy
+
+For Kubernetes..you also have to create a secret
+kubectl create secret generic dialogflow-key --from-file=key.json=/Users/kevindunetz/Downloads/kadrichtext-d12d986ff555.json
+
+
+THIS IS THE MAIN ONE..USE THIS USE THIS
+another-project-213615-d76e949b3541.json
+
+https://stackoverflow.com/questions/16413063/html5-record-audio-to-file
