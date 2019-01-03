@@ -80,6 +80,7 @@ for (var x= 0; x< 120;x =x + 2)
 }
 //console.log(bytes.toString('hex').substring(0,50));
 //fs.writeFile("/Users/kevindunetz/file.wav", jsonString.toString('utf-8'), function(err){
+if (false)
   fs.writeFileSync("/Users/kevindunetz/file.wav", bytes, function (err) { // write the blob to the server as a file
 
    if(err) console.error(err);
@@ -88,9 +89,10 @@ var filename = "/Users/kevindunetz/file.wav";
 var encoding = "LINEAR16";
 var languageCode = "en-US";
 var sampleRateHertz = 44100;
-asyncRecognize( filename, encoding, sampleRateHertz, languageCode, res);
+asyncRecognize( bytes, encoding, sampleRateHertz, languageCode, res);
 
 });
+if (false)
   fs.writeFileSync("/Users/kevindunetz/file.wav", req.body.webmasterfile, function (err) { // write the blob to the server as a file
 
    if(err) console.error(err);
@@ -283,7 +285,7 @@ async function translateText(textContent, source, targetLanguage, callback)
 }
 
 async function asyncRecognize(
-  filename,
+  bytes,
   encoding,
   sampleRateHertz,
   languageCode,
@@ -312,7 +314,8 @@ async function asyncRecognize(
   };
   const audio = {
     //content: fs.readFileSync(filename).toString('base64'),
-    content: fs.readFileSync(filename)
+    //content: fs.readFileSync(filename) KAD BEFORE CHANGING TO bytes
+    content: bytes
   };
 
   const request = {

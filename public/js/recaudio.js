@@ -67,7 +67,10 @@ console.log("Building wav file");
             view.setInt16(index, interleaved[i] * (0x7FFF * volume), true);
             index += 2;
         }
-for (var i=0;i<80;i++)
+
+var viewLength = view.byteLength
+if (viewLength > 80) viewLength = 80;
+for (var i=0;i<viewLength;i++)
    console.log(i + " - " + view.getUint8(i) + " - " + String.fromCharCode(view.getUint8(i)) + " - " + view.getUint8(i).toString(16));
 
 if (false)
