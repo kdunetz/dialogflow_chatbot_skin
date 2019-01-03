@@ -1,7 +1,7 @@
 1) Create new JSON for Service Account created by Dialogflow
 2) Download to computer
 3) export GOOGLE_APPLICATION_CREDENTIALS=/Users/kevindunetz/Downloads/kadrichtext-d12d986ff555.json
-4) gcloud config set project [PROJECT_ID]
+4) gcloud config set project kadrichtext
 5) gcloud auth login
 6) gcloud app deploy
 

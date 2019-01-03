@@ -104,7 +104,7 @@ var PayloadPanel = (function() {
       'children': [{
         // <div class='header-text'>
         'tagName': 'div',
-        'text': isRequest ? 'User input' : 'Dialog understands',
+        'text': isRequest ? 'User input' : 'Dialogflow understands',
         'classNames': ['header-text']
       }, {
         // <div class='code-line responsive-columns-wrapper'>

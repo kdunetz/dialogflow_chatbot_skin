@@ -24,7 +24,7 @@ app.use(bodyParser.json());
 // Handle text to speech request from client
 app.get('/synthesize', function(req, res) {
   var text2 = req.query.text;
-  console.log('Synthesizing text .... ' + text2);
+  console.log('Text to Speech .... ' + text2);
 
   if (text2.indexOf("<!-- quiet") >= 0)
      text2 = text2.substring(0, text.indexOf("<!-- quiet"));
@@ -49,7 +49,7 @@ app.get('/synthesize', function(req, res) {
     let bufferOriginal = Buffer.from(ogg, 'base64');
     res.writeHead(200, {'Content-Type': 'audio/ogg', 'Content-Transfer-Encoding': 'binary'})
     res.write(bufferOriginal);
-console.log(bufferOriginal);
+//console.log(bufferOriginal);
     res.end();
   });
 
@@ -98,26 +98,6 @@ if (false)
    if(err) console.error(err);
 })
 
-});
-app.post('/api/translate', function(req, res, next) {
-  console.log('/v2/translate');
-// The text to translate
-const text = 'Hello, world!';
-// The target language
-const targetLanguage = 'es';
-
-// Translates some text into Russian
-translate
-  .translate(text, targetLanguage)
-  .then(results => {
-    const translation = results[0];
-
-    console.log(`Text: ${text}`);
-    console.log(`Translation: ${translation}`);
-  })
-  .catch(err => {
-    console.error('ERROR:', err);
-  });
 });
 
 const {Translate} = require('@google-cloud/translate');
@@ -174,6 +154,45 @@ console.log(query);
      };
      startConversation = false;
   }
+// FIRST CHECK FOR BAD LANGUAGE 
+
+// Imports the Google Cloud client library
+const language = require('@google-cloud/language');
+
+// Instantiates a client
+const client = new language.LanguageServiceClient();
+
+// The text to analyze
+//const text = 'Hello, world!';
+var text = query;
+
+const document = {
+  content: text,
+  type: 'PLAIN_TEXT',
+};
+
+// Detects the sentiment of the text
+client
+  .analyzeSentiment({document: document})
+  .then(results => {
+    const sentiment = results[0].documentSentiment;
+
+    console.log(`Text: ${text}`);
+    console.log(`Sentiment score: ${sentiment.score}`);
+    console.log(`Sentiment magnitude: ${sentiment.magnitude}`);
+  if (sentiment.score < 0)
+  {
+      var payload = {};
+      payload.input = {};
+      payload.input.text = query;
+      var data = {};
+      data.output = {}; 
+      data.output.text = "Watch your harsh language";
+      data.output.result = {};
+      return res.json(updateMessage(payload, data));
+  } 
+  else
+  {
  
 // Send request and log result
 sessionClient
@@ -197,13 +216,11 @@ sessionClient
       data.output.text = result.fulfillmentMessages[0].text.text;
       data.output.result = result;
       if (result.fulfillmentMessages.length > 1 && result.fulfillmentMessages[1].card)
-         console.log("KAD " + result.fulfillmentMessages[1].card.buttons[0].text);
+         console.log(result.fulfillmentMessages[1].card.buttons[0].text);
 
       if (targetLanguage != "en")
       {
          var textContent = data.output.text;
-         // The target language
-         targetLanguage = 'es';
          translate
            .translate(textContent, targetLanguage)
            .then(results => {
@@ -222,8 +239,14 @@ sessionClient
          return res.json(updateMessage(payload, data));
   })
   .catch(err => {
-    console.error('ERROR KAD:', err);
+    console.error('ERROR:', err);
   })
+  }
+  }) // end of sentiment analysis
+  .catch(err => {
+    console.error('ERROR:', err);
+    return results;
+  });
 });
 
 /**
@@ -273,17 +296,6 @@ function updateMessage(input, response) {
   return response;
 }
 
-async function translateText(textContent, source, targetLanguage, callback) 
-{ 
-// Translates some text 
-    let results = await translate.translate(textContent, targetLanguage);
-    const translation = await results[0];
-
-    console.log(`Text: ${textContent}`);
-    console.log(`Translation: ${translation}`);
-    return translation;
-}
-
 async function asyncRecognize(
   bytes,
   encoding,
@@ -314,8 +326,8 @@ async function asyncRecognize(
   };
   const audio = {
     //content: fs.readFileSync(filename).toString('base64'),
-    //content: fs.readFileSync(filename) KAD BEFORE CHANGING TO bytes
-    content: bytes
+    //content: fs.readFileSync(filename) KAD BEFORE CHANGING TO bytes Jan 2, 2018
+    content: bytes // KAD added this to take bytes directly from incoming bytes from Webpage versus writing file then reading
   };
 
   const request = {
@@ -335,5 +347,39 @@ async function asyncRecognize(
   console.log(`Transcription: ${transcription}`);
   // [END speech_transcribe_async]
   res.send(transcription);
+}
+
+async function naturalLanguage(text)
+{
+// Imports the Google Cloud client library
+const language = require('@google-cloud/language');
+
+// Instantiates a client
+const client = new language.LanguageServiceClient();
+
+// The text to analyze
+//const text = 'Hello, world!';
+
+const document = {
+  content: text,
+  type: 'PLAIN_TEXT',
+};
+
+// Detects the sentiment of the text
+await client
+  .analyzeSentiment({document: document})
+  .then(results => {
+    const sentiment = results[0].documentSentiment;
+
+    console.log(`Text: ${text}`);
+    console.log(`Sentiment score: ${sentiment.score}`);
+    console.log(`Sentiment magnitude: ${sentiment.magnitude}`);
+    //res.send(sentiment.score);
+    return results;
+  })
+  .catch(err => {
+    console.error('ERROR:', err);
+    return results;
+  });
 }
 module.exports = app;

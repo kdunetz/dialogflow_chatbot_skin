@@ -25,9 +25,13 @@ var ConversationPanel = (function() {
   };
 
   // Initialize the module
+
   function init() {
-    //document.getElementById('payload-column').style.visibility = 'hidden'; // KAD added to hide the payload
-    //document.getElementById('view-change-button').style.visibility = 'hidden'; // KAD added to hide the payload
+    if (false)
+    {
+       document.getElementById('payload-column').style.visibility = 'hidden'; // KAD added to hide the payload
+       document.getElementById('view-change-button').style.visibility = 'hidden'; // KAD added to hide the payload
+    }
     chatUpdateSetup();
     Api.sendRequest( '', null );
     setupInputBox();
@@ -182,7 +186,7 @@ console.log("IN HERE KEVIN 1 " + newPayload.output.text);
     var subtitle = "";
     var cardImage = "";
     var image2 = "";
-if (newPayload.output)
+if (newPayload.output && newPayload.output.result.fulfillmentMessages)
     for (var a = 1;a<newPayload.output.result.fulfillmentMessages.length;a++)
     {
        if (newPayload.output && newPayload.output.result.fulfillmentMessages.length > 1 && newPayload.output.result.fulfillmentMessages[a].card)

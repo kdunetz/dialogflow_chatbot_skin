@@ -80,7 +80,7 @@ div {
   margin: 0.75rem;
   overflow-y: auto;
   overflow-x: hidden;
-  height: calc(100% - 4rem);
+  height: calc(100% - 5rem);// KAD changed from -4
 }
 .icon {
   width: 2em;
@@ -335,3 +335,41 @@ html{
     min-width: initial;
   }
 }
+// KAD added Jan 3, 2018
+.btn-primary {
+  color: #fff;
+  background-color: #337ab7;
+  border-color: #2e6da4;
+}
+.btn {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 7px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  margin: 0px 4px;
+}
+
+}
+
+.btn:hover {
+  outline: none;
+  text-decoration: none;
+  border-color: #000000;
+}
+
+.btn:focus {
+  outline: none;
+  border-color: #000000;
+  box-shadow: 0 0 0 3px var(--darken-3);
+}
+
+::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+
+

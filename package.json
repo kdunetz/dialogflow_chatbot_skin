@@ -19,6 +19,7 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
+    "@google-cloud/language": "^2.0.0",
     "@google-cloud/speech": "^2.1.1",
     "@google-cloud/text-to-speech": "^0.4.0",
     "@google-cloud/translate": "^2.1.3",
