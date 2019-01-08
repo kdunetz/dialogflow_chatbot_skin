@@ -57,7 +57,7 @@ app.get('/synthesize', function(req, res) {
 
 app.post('/speech_to_text', function(req, res, next) {
 console.log("Received WAV file");
-console.log(req);
+//console.log(req);
  var jsonString = "";
 //console.log(req.body.webmasterfile);
 //console.log(req.body);
@@ -98,7 +98,7 @@ if (false)
    if(err) console.error(err);
 })
 
-});
+     }); /* end */
 
 const {Translate} = require('@google-cloud/translate');
 // Your Google Cloud Platform project ID
@@ -164,6 +164,7 @@ const client = new language.LanguageServiceClient();
 
 // The text to analyze
 //const text = 'Hello, world!';
+if (query === 'restart') query = 'happy';
 var text = query;
 
 const document = {
@@ -270,20 +271,21 @@ function updateMessage(input, response) {
     }
 
     var text = input.input.text; 
-    if (text === "Spanish language" || text === "Do you speak Spanish" || text === "Do you speak in Spanish" || text === "Please speak Spanish" || text === 'Please speak in Spanish' || text === "You speak Spanish" || text === "spanish" || text === "Spanish" || (text.toLowerCase().indexOf("speak") >= 0 && text.toLowerCase().indexOf("spanish") >= 0))
+    if (text === "Spanish language" || text === "Do you speak Spanish" || text === "Do you speak in Spanish" || text === "Please speak Spanish" || text === 'Please speak in Spanish' || text === "You speak Spanish" || text === "spanish" || text === "Spanish" || 
+(text.toLowerCase().indexOf("speak") >= 0 && text.toLowerCase().indexOf("spanish") >= 0))
        {
           voice = "es-ES-Standard-A";
           targetLanguage = "es";
-          response.output.text = "Yes";
+          response.output.text = "Si";
        }
        else
-       if (text === "French language" || text === "Do you speak French" || text === "Do you speak in French" || text === "Please speak French" || text === 'Please speak in French' || text === "You speak French" || text === "french" || text === "French")
+       if (text === "French language" || text === "Do you speak French" || text === "Do you speak in French" || text === "Please speak French" || text === 'Please speak in French' || text === "You speak French" || text === "french" || text === "French" || (text.toLowerCase().indexOf("speak") >= 0 && text.toLowerCase().indexOf("french") >= 0))
        {
           voice = "fr-FR-Standard-B";
           targetLanguage = "fr";
-          response.output.text = "Yes";
+          response.output.text = "Oui";
        }
-       else if (text === "English language" || text === "Do you speak English" || text === "Do you speak in English" || text === "Please speak English" || text === 'Please speak in English' || text === "You speak English" || text === "english" || text === "English")
+       else if (text === "English language" || text === "Do you speak English" || text === "Do you speak in English" || text === "Please speak English" || text === 'Please speak in English' || text === "You speak English" || text === "english" || text === "English" || (text.toLowerCase().indexOf("speak") >= 0 && text.toLowerCase().indexOf("english") >= 0))
        {
           voice = "en-US-Wavenet-A"; 
           targetLanguage = "en";
@@ -346,6 +348,7 @@ async function asyncRecognize(
     .join('\n');
   console.log(`Transcription: ${transcription}`);
   // [END speech_transcribe_async]
+  res.header('Access-Control-Allow-Origin', '*');
   res.send(transcription);
 }
 
