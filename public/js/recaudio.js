@@ -22,6 +22,7 @@ function startRecording(){
         // reset the buffers for the new recording
         leftchannel.length = rightchannel.length = 0;
         recordingLength = 0;
+        recordingBlocks = 0;
    } // end startRecording()
 
 function stopRecording(callBack){
@@ -167,7 +168,7 @@ function success(e){
     audioContext = window.AudioContext || window.webkitAudioContext;
     context = new audioContext();
 
-    console.log('succcess');
+    console.log('success');
     
     // creates a gain node
     volume = context.createGain();
@@ -185,6 +186,7 @@ function success(e){
     var bufferSize = 2048;
     recorder = context.createScriptProcessor(bufferSize, 2, 2);
 
+
     recorder.onaudioprocess = function(e){
         if (!recording) return;
         var left = e.inputBuffer.getChannelData (0);
@@ -194,6 +196,11 @@ function success(e){
         rightchannel.push (new Float32Array (right));
         recordingLength += bufferSize;
         console.log('recording');
+        if (recordingBlocks++ > 125) // about 5 seconds
+        {
+           stopRecording();
+           resetRecordButton();
+        }
     }
 
     // we connect the recorder

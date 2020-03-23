@@ -214,81 +214,92 @@ if (newPayload.output && newPayload.output.result.fulfillmentMessages)
 
     textArray.forEach(function(currentText) {
       var array = [
-{
+         {
                 // <p>{messageText}</p>
                 'tagName': 'p',
                 'text': currentText 
-}];
-if (cardImage)
-   array.push(
-   {
+         }];
+         if (cardImage)
+            array.push(
+            {
                 'tagName': 'img',
                 'text': "image1",
                     'attributes': [{
                       'name': 'src',
                       'value': cardImage 
-                    }]
-   });
-if (image2)
-   array.push(
-   {
+                    }
+                    ,{
+                      'name': 'width',
+                      'value': "100%" 
+                    }
+                    ]
+            });
+         if (image2)
+            array.push(
+            {
                 'tagName': 'img',
                 'text': "image2",
                     'attributes': [{
                       'name': 'src',
                       'value': image2 
-                    }]
-   });
-if (href)
-   array.push(
-   {
+                    }
+                    ,{
+                      'name': 'width',
+                      'value': "100%" 
+                    }
+                    ]
+            });
+         if (href)
+            array.push(
+            {
                 'tagName': 'a',
                 'text': buttons,
                     'attributes': [{
                       'name': 'href',
                       'value': href 
                     }]
-   }
-);
-if (title)
-   array.push(
-   {
+            }
+         );
+         if (false && title)
+            array.push(
+            {
                 // <p>{messageText}</p>
                 'tagName': 'p',
                 'text': title 
-   }
-);
+            }
+         );
 
-if (subtitle)
-array.push(
-{
+         if (subtitle)
+            array.push(
+            {
                 // <p>{messageText}</p>
                 'tagName': 'p',
                 'text': subtitle 
-}
-)
-if (newPayload.output)
-{
-   if (quickreplies)
-      for (var x=0;x< quickreplies.length;x++)
-      {
-         array.push(
+            }
+         )
+
+         if (newPayload.output)
          {
-                'tagName': 'a',
-                'text': quickreplies[x],
-                    'attributes': [
-                       {
-                         'name': 'class',
-                         'value': 'btn btn-primary' 
-                       },
-                       {
-                         'name': 'onClick',
-                         'value': 'javascript: document.getElementById("textInput").value = "' + quickreplies[x] + '"; event.keyCode = 13; ConversationPanel.inputKeyDown(event, document.getElementById("textInput"));'
-                       }
-                    ]
-         });
-      }
-}
+            if (quickreplies)
+               for (var x=0;x< quickreplies.length;x++)
+               {
+                  array.push(
+                  {
+                      'tagName': 'a',
+                      'text': quickreplies[x],
+                      'attributes': [
+                         {
+                            'name': 'class',
+                            'value': 'btn btn-primary' 
+                         },
+                         {
+                            'name': 'onClick',
+                            'value': 'javascript: document.getElementById("textInput").value = "' + quickreplies[x] + '"; event.keyCode = 13; ConversationPanel.inputKeyDown(event, document.getElementById("textInput"));'
+                         }
+                      ]
+                  });
+               }
+         }
       
       if (currentText) {
         var messageJson = {

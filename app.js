@@ -13,6 +13,7 @@ var startConversation = true;
 
 // Imports the Google Cloud client library
 const textToSpeech = require('@google-cloud/text-to-speech');
+
 // Creates a client
 const client = new textToSpeech.TextToSpeechClient();
 
@@ -102,14 +103,14 @@ if (false)
 
 const {Translate} = require('@google-cloud/translate');
 // Your Google Cloud Platform project ID
-const XprojectId = 'another-project-213615';
+//const GCP_projectId = process.env.gcp_projectid ; //'another-project-213615';
 
 // Instantiates a client
 const translate = new Translate({
-  projectId: XprojectId,
+  projectId: process.env.dialogflow_projectid,
 });
 
-const projectId = 'kadrichtext'; //https://dialogflow.com/docs/agents#settings
+const projectId = process.env.dialogflow_projectid; //'kadrichtext'; //https://dialogflow.com/docs/agents#settings
 const sessionId = 'quickstart-session-id';
 const languageCode = 'en-US';
  
@@ -181,14 +182,14 @@ client
     console.log(`Text: ${text}`);
     console.log(`Sentiment score: ${sentiment.score}`);
     console.log(`Sentiment magnitude: ${sentiment.magnitude}`);
-  if (sentiment.score < 0)
+  if (sentiment.score < -.3)
   {
       var payload = {};
       payload.input = {};
       payload.input.text = query;
       var data = {};
       data.output = {}; 
-      data.output.text = "Watch your harsh language";
+      data.output.text = "I take it you are not happy";
       data.output.result = {};
       return res.json(updateMessage(payload, data));
   } 

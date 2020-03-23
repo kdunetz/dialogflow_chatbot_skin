@@ -1,18 +1,28 @@
+<!DOCTYPE html>
 <html>
 <head>
   <base href="/">
-  <title>Dialogflow Chat App</title>
+  <title>Dialogflow Chatbot App</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta property="og:image" content="conversation.svg" />
-  <meta property="og:title" content="Dialogflow Sample App" />
+  <meta property="og:title" content="Dialogflow Chatbot App" />
   <meta property="og:description" content="Sample application that shows how to use the Dialogflow API to identify user intents" />
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="css/app.css">
+ <!--       <script src="http://cwilso.github.io/AudioContext-MonkeyPatch/AudioContextMonkeyPatch.js"></script>-->
+
 <script
   src="https://code.jquery.com/jquery-3.3.1.min.js"
   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
   crossorigin="anonymous"></script>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script>
   var player = document.getElementById('player');
@@ -38,45 +48,19 @@ navigator.mediaDevices.getUserMedia({audio: true}).
     microphone.connect(filter);
     filter.connect(context.destination);
 });
-
-var recordButtonState = 0;
-var recordButton = {};
-
-var toggleButton = function(button) {
-   if (recordButtonState == 0)
-   {
-      console.log("IN HERE");
-      recordButton = button;
-      button.style.backgroundColor = 'red'; 
-      button.style.color='#ffffff';
-      button.value = 'Stop'; 
-      recorder.start();
-      recordButtonState = 1;
-   }
-   else
-   {
-      button.style.backgroundColor = 'white'; 
-      button.style.color='black';
-      button.value = 'Record'; 
-      recorder.stop('http://localhost:3000/speech_to_text');
-      recordButtonState = 0;
-   }
-}
-var resetRecordButton = function()
-{
-      recordButton.style.backgroundColor = 'white'; 
-      recordButton.style.color='black';
-      recordButton.value = 'Record'; 
-      recordButtonState = 0;
-}
 </script>
 </head>
 <body>
-    
+
+<img id="microphoneIcon" src="../img/microphone_hover.svg" class="icon">
+<input onclick="recorder.start()" type="button" value="Start recording" />
+<input onclick="recorder.stop('http://localhost:3000/speech_to_text')" type="button" value="Stop recording" />
+             
 
    <audio autoplay id="audio" class="audio" type="audio/ogg" preload="none">
      Your browser does not support the audio element. Try Firefox or Chrome.
    </audio>
+
   <div id="view-change-button" class="button" onclick="PayloadPanel.togglePanel(event, this)">
     <img class="option full" src="../img/Chat Button.png">
     <img class="option not-full" src="../img/Code Button.png">
@@ -89,13 +73,7 @@ var resetRecordButton = function()
           <input id="textInput" class="input responsive-column"
             placeholder="Type something" type="text"
             onkeydown="ConversationPanel.inputKeyDown(event, this)">
-<!--<img id="microphoneIcon" src="../img/microphone_hover.svg" class="icon"> -->
         </label>
-   <input onclick="toggleButton(this)" type="button" value="Record" />
-<!--
-<input onclick="this.value='Stop'; this.style.color='#ffffff';
-this.style.backgroundColor = 'red'; recorder.start()" type="button" value="Record" />
-<input onclick="recorder.stop('http://localhost:3000/speech_to_text')" type="button" value="Stop" />-->
       </div>
     </div>
     <div id="payload-column" class="fixed-column content-column">
@@ -112,6 +90,7 @@ this.style.backgroundColor = 'red'; recorder.start()" type="button" value="Recor
   <script src="js/conversation.js"></script>
   <script src="js/payload.js"></script>
   <script src="js/global.js"></script>
+  <!-- <script src="js/recorderWorker.js"></script> -->
   <script src="js/recaudio.js"></script>
 </body>
 </html>

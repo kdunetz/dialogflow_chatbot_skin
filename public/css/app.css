@@ -161,7 +161,7 @@ div {
   border-top-right-radius: 1.25rem;
 }
 
-.from-watson .message-inner {
+.from-dialogflow .message-inner {
   position: relative;
   border-radius: 1.5625rem;
   font-size: 1rem;
@@ -170,16 +170,16 @@ div {
   line-height: 1.3125rem;
 }
 
-.from-watson.latest .message-inner {
+.from-dialogflow.latest .message-inner {
   color: #323232;
 }
 
-.from-watson p {
+.from-dialogflow p {
   margin: 0.3125rem;
   padding: 0 1.25rem;
 }
 
-.from-watson.latest.top p:before {
+.from-dialogflow.latest.top p:before {
   content: ".";
   color: #9855D4;
   background-image: url("../img/marker_image.png");

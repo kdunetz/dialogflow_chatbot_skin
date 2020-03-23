@@ -1,9 +1,13 @@
-1) Create new JSON for Service Account created by Dialogflow
+1) Create new JSON for the Service Account created by Dialogflow (NOT one in your main code project). The one Dialogflow ALREADY created
 2) Download to computer
 3) export GOOGLE_APPLICATION_CREDENTIALS=/Users/kevindunetz/Downloads/kadrichtext-d12d986ff555.json
 4) gcloud config set project kadrichtext
+    or run . ./init.sh
 5) gcloud auth login
-6) gcloud app deploy
+6) npm start // to run/debug locally first
+7) gcloud app deploy
+8) Enable Translation API with a URL like https://console.developers.google.com/apis/api/language.googleapis.com/overview?project=938611827062
+9) Enable Dialogflow API with a URL like https://console.developers.google.com/apis/api/language.googleapis.com/overview?project=938611827062
 
 For Kubernetes..you also have to create a secret
 kubectl create secret generic dialogflow-key --from-file=key.json=/Users/kevindunetz/Downloads/kadrichtext-d12d986ff555.json
@@ -14,3 +18,18 @@ another-project-213615-d76e949b3541.json
 
 https://stackoverflow.com/questions/16413063/html5-record-audio-to-file
 http://soundfile.sapp.org/doc/WaveFormat/
+
+How to build the Dialogflow skin container 
+
+1) . kubernetes/env.sh
+2) . kubernetes/build.sh
+
+To Create the Cloud Run version
+
+1) Move the shared container and move into your dialogflow container repository
+     With Pull, tag, and push commands
+
+2) Go to Cloud Run and start a new service
+    Under Environment variables set the following
+	  dialogflow_projectid ()
+          gcp_projectid (can be same as dialogflow_projectid)

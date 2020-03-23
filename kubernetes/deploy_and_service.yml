@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Service
+apiVersion: v1
+metadata:
+  name: dialogflow-chatbot 
+spec:
+  type: NodePort
+  ports:
+    - port: 3000
+  selector:
+    app: dialogflow-chatbot 
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: dialogflow-chatbot 
+spec:
+  replicas: 1 
+  template:
+    metadata:
+      labels:
+        app:  dialogflow-chatbot 
+    spec:
+      volumes:
+      - name: google-cloud-key
+        secret:
+          secretName: dialogflow-key
+      containers:
+      - name: dialogflow-chatbot 
+        image: kdunetz/dialogflow-chatbot-skin:1.0 
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: google-cloud-key
+          mountPath: /var/secrets/google
+        env:
+        - name: GOOGLE_APPLICATION_CREDENTIALS
+          value: /var/secrets/google/key.json
+        ports:
+        - containerPort: 3000
